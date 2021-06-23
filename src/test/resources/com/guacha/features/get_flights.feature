@@ -16,7 +16,6 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-
 Feature: Find cheapest flights
   I want to automate the search of cheap flights
 
@@ -24,5 +23,7 @@ Feature: Find cheapest flights
     Given I want to search cheap flights in the main page
     When I input "cartagena" as departure and "bogota" as destination
     And I input "30/08/2021" as departure date and "30/09/2021" as return date
+    And I select 2 adults and 2 children with ages
+      |    5 |
+      |   10 |
     Then I should see all available flights according to parameters
-

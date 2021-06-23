@@ -1,5 +1,7 @@
 package com.guacha.stepdefinitions;
 
+import java.util.List;
+
 import com.guacha.pages.DespegarMain;
 
 import io.cucumber.java.en.Given;
@@ -24,10 +26,16 @@ public class GetFlightsStepDefinitions {
 	public void iInputAsDepartureDateAndAsReturnDate(String strDepDate, String strRetDate) {
 	    main.inputDateParameters(strDepDate, strRetDate);
 	}
+	
+	@When("I select {int} adults and {int} children with ages")
+	public void iSelectAdultsAndChildrenWithAges(Integer intAdults, Integer intChildren, List<Integer> ages) {
+	    main.inputPeopleParameters(intAdults, intChildren, ages);
+	    main.submitEverything();
+	}
 
 	@Then("I should see all available flights according to parameters")
 	public void iShouldSeeAllAvailableFlightsAccordingToParameters() {
-	    
+	    System.out.println("a");
 	}
 	
 }

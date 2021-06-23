@@ -26,8 +26,14 @@ public class DespegarMain extends PageObject{
 	By calendarRightArrow = By.xpath("(//a[@class='calendar-arrow-right'])[1]");
 	By calendar = By.xpath("(//div[@data-month])[1]");
 	By calendarDays = By.xpath("(//div[@data-month])/div[contains(@class, 'dates')]/div");
+	By calendarSubmit = By.xpath("//div[contains(@class, 'calendar-footer')]/div/button[not(contains(@class, '-disable'))]"); //kill me pls
 	
+	By peopleSelector = By.xpath("(//input[@placeholder=''])[1]");
+	String increasingButton = "//div[@class='stepper__room__row'][%d]/div/div/button[2]";
+	String ageSelectors = "(//div[@class='stepper__room__row']//select)[%d]";
+	By peopleSelectorSubmitButton = By.xpath("//div[@class='stepper__room__footer ']/a");
 	
+	By submitAllButton = By.xpath("(//button)[1]");
 	
 	public void startBrowser() {
 		open();
@@ -55,14 +61,14 @@ public class DespegarMain extends PageObject{
 		
 		//Revisamos que el mes/año esté en el primer calendario
 		//TODO: Combinar en un solo ciclo
-		String[] fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "date-month").split("-");
+		String[] fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "data-month").split("-");
 		while(!fechaCalendario[0].equals(depSplit[2])) {
 			if (Integer.parseInt(depSplit[2]) > Integer.parseInt(fechaCalendario[0])) {
 				Actions.clickElement(getDriver(), calendarRightArrow);
 			} else {
 				Actions.clickElement(getDriver(), calendarLeftArrow);
 			}
-			fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "date-month").split("-");
+			fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "data-month").split("-");
 		}
 		while(!fechaCalendario[1].equals(depSplit[1])) {
 			if (Integer.parseInt(depSplit[1]) > Integer.parseInt(fechaCalendario[1])) {
@@ -70,7 +76,7 @@ public class DespegarMain extends PageObject{
 			} else {
 				Actions.clickElement(getDriver(), calendarLeftArrow);
 			}
-			fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "date-month").split("-");
+			fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "data-month").split("-");
 		}
 		
 		//Buscamos el botón para el día de ida
@@ -91,13 +97,49 @@ public class DespegarMain extends PageObject{
 				}
 				// Si ya seleccionamos la primera fecha, y hay match en la segunda, le hacemos click
 				if (departureClicked && e.getText().equals(retSplit[0])) {
-					if (Actions.getAttributeOfElement(getDriver(), calendar, "date-month").split("-")[1].equals(retSplit[1]))
+					if (fechaCalendario[1].equals(retSplit[1])) {
 						Actions.clickElement(getDriver(), e);
+						bothClicked = true;		
+						break;
+					}
 				}
 			}
-			Actions.clickElement(getDriver(), calendarRightArrow);
-		}		
+			if (!bothClicked) {
+				Actions.clickElement(getDriver(), calendarRightArrow);
+				fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "data-month").split("-");				
+			}
+		}
+		Actions.clickElement(getDriver(), calendarSubmit);
+	}
+	
+	public void inputPeopleParameters(int adults, int children, List<Integer> childrenAges) {
+		// Obtener dinámicamente los botones de incrementar adultos y niños
+		Actions.clickElement(getDriver(), peopleSelector);
+		By increaseAdultsButton = By.xpath(String.format(increasingButton, 1));
+		By increaseChildrenButton = By.xpath(String.format(increasingButton, 2));
 		
+		Actions.waitForElement(getDriver(), increaseAdultsButton);
+		
+		// Hacer click la cantidad de veces respectiva
+		for (int i = 1; i < adults; i++) {
+			Actions.clickElement(getDriver(), increaseAdultsButton);			
+		}
+		
+		for (int i = 0; i < children; i++) {
+			Actions.clickElement(getDriver(), increaseChildrenButton);			
+		}
+		
+		// Seleccionar la edad de los niños
+		for (int i = 1; i <= children; i++) {
+			int age = childrenAges.get(i-1);
+			By ageSelector = By.xpath(String.format(ageSelectors, i));
+			Actions.typeIntoField(getDriver(), ageSelector, String.valueOf(age));
+		}
+		Actions.clickElement(getDriver(), peopleSelectorSubmitButton);
+	}
+	
+	public void submitEverything() {
+		Actions.clickElement(getDriver(), submitAllButton);
 	}
 	
 }
