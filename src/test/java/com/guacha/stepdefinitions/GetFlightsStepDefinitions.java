@@ -17,25 +17,28 @@ public class GetFlightsStepDefinitions {
 	    main.startBrowser();
 	}
 
-	@When("I input {string} as departure and {string} as destination")
-	public void iInputAsDepartureAndAsDestination(String strDeparture, String strDestination) {
-	    main.inputCityParameters(strDeparture, strDestination);
+	@When("I input my departure and destination {string}")
+	public void iInputAsDepartureAndAsDestination(String strCityData) {
+		String[] cities = strCityData.split("-");
+	    main.inputCityParameters(cities[0], cities[1]);
 	}
 	
-	@When("I input {string} as departure date and {string} as return date")
-	public void iInputAsDepartureDateAndAsReturnDate(String strDepDate, String strRetDate) {
-	    main.inputDateParameters(strDepDate, strRetDate);
+	@When("I input my departure and return dates {string}")
+	public void iInputAsDepartureDateAndAsReturnDate(String strDateData) {
+		String[] dates = strDateData.split("-");
+	    main.inputDateParameters(dates[0], dates[1]);
 	}
 	
-	@When("I select {int} adults and {int} children with ages")
-	public void iSelectAdultsAndChildrenWithAges(Integer intAdults, Integer intChildren, List<Integer> ages) {
-	    main.inputPeopleParameters(intAdults, intChildren, ages);
+	@When("I select {int} adults and {int} children with ages {string}")
+	public void iSelectAdultsAndChildrenWithAges(Integer intAdults, Integer intChildren, String strChildrenAges) {
+	    
+		main.inputPeopleParameters(intAdults, intChildren, strChildrenAges.split(","));
 	    main.submitEverything();
 	}
 
 	@Then("I should see all available flights according to parameters")
 	public void iShouldSeeAllAvailableFlightsAccordingToParameters() {
-	    System.out.println("a");
+	    System.out.println("Ya");
 	}
 	
 }

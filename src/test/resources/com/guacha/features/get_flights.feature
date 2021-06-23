@@ -19,11 +19,15 @@
 Feature: Find cheapest flights
   I want to automate the search of cheap flights
 
-  Scenario: Search cheap flights
+  Scenario Outline: Search cheap flights
     Given I want to search cheap flights in the main page
-    When I input "cartagena" as departure and "bogota" as destination
-    And I input "30/08/2021" as departure date and "30/09/2021" as return date
-    And I select 2 adults and 2 children with ages
-      |    5 |
-      |   10 |
+    When I input my departure and destination <city_info>
+    And I input my departure and return dates <dates_info>
+    And I select <adult_num> adults and <children_num> children with ages <children_ages>
     Then I should see all available flights according to parameters
+
+    Examples: 
+      | city_info            | dates_info              | adult_num | children_num | children_ages |
+      | "cartagena-bogota"   | "14/09/2021-14/11/2021" |         3 |            3 | "8,12,16"     |
+      | "cartagena-medellin" | "11/09/2021-15/09/2021" |         2 |            4 | "4,4,4,4"     |
+      | "medellin-bogota"    | "11/09/2021-21/10/2021" |         1 |            1 | "6"           |

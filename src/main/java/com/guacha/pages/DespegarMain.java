@@ -1,13 +1,8 @@
 package com.guacha.pages;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.guacha.actions.Actions;
 
 import net.thucydides.core.annotations.DefaultUrl;
@@ -112,7 +107,7 @@ public class DespegarMain extends PageObject{
 		Actions.clickElement(getDriver(), calendarSubmit);
 	}
 	
-	public void inputPeopleParameters(int adults, int children, List<Integer> childrenAges) {
+	public void inputPeopleParameters(int adults, int children, String[] childrenAges) {
 		// Obtener dinámicamente los botones de incrementar adultos y niños
 		Actions.clickElement(getDriver(), peopleSelector);
 		By increaseAdultsButton = By.xpath(String.format(increasingButton, 1));
@@ -131,9 +126,9 @@ public class DespegarMain extends PageObject{
 		
 		// Seleccionar la edad de los niños
 		for (int i = 1; i <= children; i++) {
-			int age = childrenAges.get(i-1);
+
 			By ageSelector = By.xpath(String.format(ageSelectors, i));
-			Actions.typeIntoField(getDriver(), ageSelector, String.valueOf(age));
+			Actions.typeIntoField(getDriver(), ageSelector, childrenAges[i-1]);
 		}
 		Actions.clickElement(getDriver(), peopleSelectorSubmitButton);
 	}
