@@ -96,9 +96,7 @@ public class DespegarMain extends PageObject{
 				}
 			}
 			Actions.clickElement(getDriver(), calendarRightArrow);
-		}
-		//Buscamos el botón para el día de ida
-		
+		}		
 		
 	}
 	

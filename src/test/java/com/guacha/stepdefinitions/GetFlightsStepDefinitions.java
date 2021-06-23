@@ -10,7 +10,7 @@ public class GetFlightsStepDefinitions {
 	
 	DespegarMain main;
 	
-	/*@Given("I want to search cheap flights in the main page")
+	@Given("I want to search cheap flights in the main page")
 	public void iWantToSearchCheapFlightsInTheMainPage() {
 	    main.startBrowser();
 	}
@@ -28,6 +28,6 @@ public class GetFlightsStepDefinitions {
 	@Then("I should see all available flights according to parameters")
 	public void iShouldSeeAllAvailableFlightsAccordingToParameters() {
 	    
-	}*/
+	}
 	
 }
