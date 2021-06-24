@@ -2,6 +2,7 @@ package com.guacha.pages;
 
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
 import com.guacha.actions.Actions;
 
@@ -104,7 +105,11 @@ public class DespegarMain extends PageObject{
 				fechaCalendario = Actions.getAttributeOfElement(getDriver(), calendar, "data-month").split("-");				
 			}
 		}
-		Actions.clickElement(getDriver(), calendarSubmit);
+		try {
+			Actions.clickElement(getDriver(), calendarSubmit);
+		} catch(ElementClickInterceptedException e) {
+			// pass
+		}
 	}
 	
 	public void inputPeopleParameters(int adults, int children, String[] childrenAges) {

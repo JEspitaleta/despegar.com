@@ -3,6 +3,7 @@ package com.guacha.stepdefinitions;
 import java.util.List;
 
 import com.guacha.pages.DespegarMain;
+import com.guacha.pages.DespegarTickets;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,6 +12,7 @@ import io.cucumber.java.en.When;
 public class GetFlightsStepDefinitions {
 	
 	DespegarMain main;
+	DespegarTickets tickets;
 	
 	@Given("I want to search cheap flights in the main page")
 	public void iWantToSearchCheapFlightsInTheMainPage() {
@@ -38,7 +40,8 @@ public class GetFlightsStepDefinitions {
 
 	@Then("I should see all available flights according to parameters")
 	public void iShouldSeeAllAvailableFlightsAccordingToParameters() {
-	    System.out.println("Ya");
+	    tickets.waitForLoadTime();
+	    tickets.printTickets();
 	}
 	
 }
